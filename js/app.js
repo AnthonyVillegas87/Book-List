@@ -20,9 +20,17 @@ UI.prototype.addBookToList = function(book) {
     `   <td>${book.title}</td>
         <td>${book.author}</td>
         <td>${book.genre}</td> 
-        <td><a href="#">X</a></td>`
+        <td><a href="#" class="delete">X</a></td>`
 
     list.appendChild(rowEl);
+
+}
+
+//Bind UI constructor to clearListMethod
+UI.prototype.clearList = function() {
+    document.getElementById('title').value = '';
+    document.getElementById('author').value = '';
+    document.getElementById('genre').value = '';
 
 }
 
@@ -43,6 +51,7 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
     ui.addBookToList(book);
 
     //Clear List
+    ui.clearList();
 
     e.preventDefault();
 })
