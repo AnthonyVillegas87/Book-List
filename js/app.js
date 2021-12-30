@@ -8,6 +8,7 @@ function Book(title, author, genre) {
 
 //UI Constructor
 function UI() {}
+
 //Bind UI constructor to addBookToList Method
 UI.prototype.addBookToList = function(book) {
     const list = document.getElementById('book-list');
@@ -25,8 +26,8 @@ UI.prototype.addBookToList = function(book) {
     list.appendChild(rowEl);
 
 }
-//Show Error Message
-UI.prototype.showError = function(message, className) {
+//Show Message
+UI.prototype.showValidation = function(message, className) {
     //Create Div element for error message
     const divEl = document.createElement('div');
     //Add Class
@@ -45,6 +46,13 @@ UI.prototype.showError = function(message, className) {
     }, 3000)
 }
 
+//Bind UI constructor to deleteBook method
+UI.prototype.deleteBook = function(target) {
+    if(target.className === 'delete') {
+       target.parentElement.parentElement.remove();
+    }
+}
+
 //Bind UI constructor to clearListMethod
 UI.prototype.clearList = function() {
     document.getElementById('title').value = '';
@@ -53,7 +61,7 @@ UI.prototype.clearList = function() {
 
 }
 
-//Event Listeners
+//Add Book Event Listener
 document.getElementById('book-form').addEventListener('submit', function(e) {
     //Take in form values
     const title = document.getElementById('title').value,
@@ -68,13 +76,27 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
 
     //validation
     if(title === '' || author === '' || genre === '') {
-       ui.showError('Please fill out correct input', 'error');
+        //Error Message
+       ui.showValidation('Please fill out correct input', 'error');
     }else {
         //Add book to list
         ui.addBookToList(book);
 
+        //Success Message
+        ui.showValidation('Book Added Successfully!', 'success')
         //Clear List
         ui.clearList();
     }
+    e.preventDefault();
+});
+
+//Delete Event Listener
+document.getElementById('book-list').addEventListener('click', function(e) {
+    //Instantiate UI obj
+    const ui = new UI();
+    ui.deleteBook(e.target);
+
+    //Reuse validation method
+    ui.showValidation('Book Removed!', 'success');
     e.preventDefault();
 })
