@@ -9,6 +9,41 @@ function Book(title, author, genre) {
 //UI Constructor
 function UI() {}
 
+
+////=================== NEXT CHALLENGE TO REFACTOR CODE USING ES6 ==========================///////
+//Local storage class
+// class Storage {
+//     static getBooks() {
+//         let books;
+//         if(localStorage.getItem('books') === null) {
+//             books = [];
+//         } else {
+//             books = JSON.parse(localStorage.getItem('books'));
+//         }
+//         return books;
+//     }
+//     static displayBooks() {
+//         const books = Storage.getBooks();
+//         books.forEach(function(book) {
+//             const ui = new UI();
+//
+//             //Add book to UI
+//             ui.addBookToList(book);
+//         });
+//     }
+//     static addBook(book) {
+//         const books = Storage.getBooks();
+//         books.push(book);
+//         localStorage.setItem('books', JSON.stringify(books));
+//     }
+//     static removeBook() {
+//
+//     }
+// }
+// //DOM onLoad Event
+// document.addEventListener('DOMContentLoaded', Storage.displayBooks);
+
+
 //Bind UI constructor to addBookToList Method
 UI.prototype.addBookToList = function(book) {
     const list = document.getElementById('book-list');
@@ -61,6 +96,7 @@ UI.prototype.clearList = function() {
 
 }
 
+
 //Add Book Event Listener
 document.getElementById('book-form').addEventListener('submit', function(e) {
     //Take in form values
@@ -81,6 +117,8 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
     }else {
         //Add book to list
         ui.addBookToList(book);
+        //Add to LS
+        Storage.addBook();
 
         //Success Message
         ui.showValidation('Book Added Successfully!', 'success')
