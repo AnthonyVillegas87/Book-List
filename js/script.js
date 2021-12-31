@@ -97,7 +97,7 @@ class Storage {
     }
 }
 //DOM onLoad Event
-document.addEventListener('DOMContentLoaded', Storage.displayBooks);
+window.addEventListener('DOMContentLoaded', Storage.displayBooks);
 
 
 //Add Book Event Listener
