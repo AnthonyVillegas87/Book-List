@@ -12,15 +12,17 @@ class UI {
     addBookToList(book) {
         const list = document.getElementById('book-list');
 
+
         //Create tr element
         const rowEl = document.createElement('tr');
 
         //Insert columns
-        rowEl.innerHTML =
-            `   <td>${book.title}</td>
+        rowEl.innerHTML = `   
+        <td>${book.title}</td>
         <td>${book.author}</td>
         <td>${book.genre}</td> 
-        <td><a href="#" class="delete">X</a></td>`
+        <td><a href="#" class="delete">X</a></td>
+        `;
 
         list.appendChild(rowEl);
 
@@ -83,8 +85,15 @@ class Storage {
         books.push(book);
         localStorage.setItem('books', JSON.stringify(books));
     }
-    static removeBook() {
+    static removeBook(genre) {
+        const books = Storage.getBooks();
 
+        books.forEach(function(book,index) {
+            if(book.genre === genre) {
+             books.splice(index, 1)
+            }
+        });
+        localStorage.setItem('books', JSON.stringify(books));
     }
 }
 //DOM onLoad Event
@@ -112,7 +121,7 @@ document.getElementById('book-form').addEventListener('submit', function(e) {
         //Add book to list
         ui.addBookToList(book);
         //Add to LS
-        Storage.addBook();
+        Storage.addBook(book);
 
         //Success Message
         ui.showValidation('Book Added Successfully!', 'success')
@@ -127,6 +136,9 @@ document.getElementById('book-list').addEventListener('click', function(e) {
     //Instantiate UI obj
     const ui = new UI();
     ui.deleteBook(e.target);
+
+    //Remove from LS
+    Storage.removeBook(e.target.parentElement.previousElementSibling.textContent);
 
     //Reuse validation method
     ui.showValidation('Book Removed!', 'success');
